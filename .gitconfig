@@ -1,0 +1,25 @@
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[user]
+	name = xtaq
+	email = 630879576@qq.com
+[alias]
+	co = checkout
+	ci = commit 
+	br = branch
+	st = status
+	df = diff
+	g = git
+	
+[core]
+	editor = vim
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+
+[push]
+	default = simple
