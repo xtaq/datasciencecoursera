@@ -14,29 +14,39 @@ vnode root[MAX+100];
 bool strcmp(char* a , char* b)
 {
 	int i=0;
-	while( a[i++] )
+	while( a[i]||b[i] )
 	{
-		if( a[i] != b[i] )
+		i++;
+		if( a[i-1] != b[i-1] )
 			return false;
 	}
 	return true ;
+}
+void strcpy(char*a ,char* b )
+{
+	int i = 0 ;
+	while( a[i++] )
+	{
+		b[i-1] = a[i-1];
+	}
 }
 int hash(char* a)
 {
 	int i = 0;
 	long temp = 1;
-	int seed = 61;
+	int seed = 131;
 	while(a[i++])
 	{
 	//	printf("%ld\n",temp);
 		temp = temp*seed +( a[i-1] - 'a'+ 1 );
 	}
-	return temp % MAX;
+	return temp & MAX;
 }
 void add(char* a,int x)
 {
 	node *p = new node;
 	p->f = true ;
+	strcpy(a,p->c);
 	p->next = root[x].next;
 	root[x].next = p;
 }
@@ -44,7 +54,7 @@ int find(char* a )
 {
 	int x;
 	x = hash(a);
-//	printf("hashcode %d\n",x);
+	//printf("hashcode %d\n",x);
 	node *p = root[x].next;
 	while(p)
 	{
