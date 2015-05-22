@@ -89,4 +89,5 @@ export HISTSIZE=100
 export HISTFILE=~/.zsh_history
 export HISTCONTROL=erasedups
 export HISTIGNORE="pwd:ls:ls -ltr:ll:la:l"
+export PATH=/usr/local/bin/:$PATH
 
