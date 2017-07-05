@@ -1,0 +1,499 @@
+"显示行号
+set number
+
+"设置取消vi兼容
+set nocompatible
+
+"编码设置
+set encoding=utf-8
+set termencoding=utf-8
+set fileencodings=utf-8,gbk,default,latin1
+
+"搜索设置
+set incsearch "输入搜索内容时就显示搜索结果
+set hlsearch "搜索高亮
+set ignorecase "忽略大小写
+
+"禁止生成临时文件
+set nobackup
+set noswapfile
+
+set backspace=indent,eol,start
+set fileformat=unix "文本格式
+
+set ruler
+set showcmd
+set laststatus=2
+set scrolloff=3
+
+"命令行补全
+set wildmenu
+
+"缩进,tab设置
+set autoindent
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set autoindent
+set expandtab
+
+"历史记录数
+set history=1000
+
+let mapleader = ";"
+
+"如果发现文件在 Vim 之外修改过而在 Vim 里面没有的话，自动重新读入。
+set autoread
+
+"折行设置
+set foldmethod=indent
+set foldlevelstart=99
+
+"字典设置
+au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
+au FileType css setlocal dict+=~/.vim/dict/css.dict
+au FileType c setlocal dict+=~/.vim/dict/c.dict
+au FileType cpp setlocal dict+=~/.vim/dict/cpp.dict
+au FileType scale setlocal dict+=~/.vim/dict/scale.dict
+au FileType javascript setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/javascript.dict
+au FileType html setlocal dict+=~/.vim/dict/css.dict
+au FileType vim setlocal dict+=~/.vim/dict/vim.dict
+
+"外部程序设置
+"install pman manual:software/php/pman
+au FileType php setlocal keywordprg=pman
+
+"ctags设置
+set tags=./tags,./TAGS,TAGS
+au FileType c setlocal tags+=~/.vim/c_systags
+
+"================================实用设置=====================================
+
+"退出
+nnoremap <leader>q <Esc>:q<CR>
+
+"保存
+nnoremap <leader>r <Esc>:w<CR>
+
+"查找函数
+nnoremap <leader><leader>f /function 
+
+"快速命令模式
+nnoremap <Space> :
+
+"设置剪贴板
+set clipboard=unnamed
+
+"设置分隔屏幕列的列数
+set colorcolumn=80
+
+"折行设置
+set wrap
+
+"清除高亮
+nnoremap <enter> :nohl<Cr><enter>
+
+"快速查看缓冲区文件列表并且导航
+nnoremap <leader>b :ls <CR>:b<Space>
+
+"设置路径，主要用于搜索
+set path=.,**
+
+"查找文件
+noremap <leader>sf :find 
+
+"命令行补全是忽略大小写
+set wildignorecase
+
+"定义跳转后居中
+nnoremap <c-]> <c-]>zz
+
+" 至行首
+cnoremap <C-A> <Home>
+" 后退一个字符
+cnoremap <C-B> <Left>
+" 删除光标所在的字符
+cnoremap <C-D> <Del>
+" 至行尾
+cnoremap <C-E> <End>
+" 前进一个字符
+cnoremap <C-F> <Right>
+" 取回较新的命令行
+" cnoremap <C-N> <Down>
+" 取回以前 (较旧的) 命令行
+" cnoremap <C-P> <Up>
+" 后退一个单词
+cnoremap <Esc><C-B> <S-Left>
+" 前进一个单词
+cnoremap <Esc><C-F> <S-Right>
+
+function! WriterToggle()
+    if !exists("g:writer_start")
+        let g:writer_start = 0
+    endif
+    Goyo
+    Limelight!!
+    if !g:writer_start
+        nnoremap j gjzz
+        nnoremap k gkzz
+    else
+        nunmap j
+        nunmap k
+    endif
+    let g:writer_start = !g:writer_start
+endfunction
+command! WriterToggle call WriterToggle()
+
+"git 使用配置
+nnoremap <leader>gcc :!git checkout %<CR>
+nnoremap <leader>gss :!git status %<CR>
+nnoremap <leader>gsa :!git status <CR>
+nnoremap <leader>gdd :!git diff %<CR>
+nnoremap <leader>gda :!git diff <CR>
+
+function! PhputilToggle()
+    if !exists("g:php_util_toggle")
+        let g:php_util_toggle = 0
+    endif
+    if g:php_util_toggle == 1
+        iunmap $
+        iunmap 4
+        let g:php_util_toggle = 0
+    else
+        inoremap 4 $
+        inoremap $ 4
+        let g:php_util_toggle = 1
+    endif
+endfunction
+command! PhputilToggle call PhputilToggle()
+
+"autocmd BufEnter * cd %:p:h "工作目录随文件变
+" autocmd! bufwritepost $HOME/.vimrc source %
+
+" 打开文件重新定位大上次退出位置
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
+"语法高亮
+syntax enable
+
+"设置colorscheme
+colorscheme molokai
+
+"修改搜索高亮组设置
+hi Search ctermfg=233 ctermbg=67 guifg=#1b1d1e guibg=#465457 cterm=None
+
+"==========================缩写========================================
+iabbrev <silent> debug <cr>echo json_encode($);exit;<Esc>F$a
+" date +"%Y-%m-%d %H:%M:%S"
+
+"==========================vundele配置========================================
+
+filetype off                  " required
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+
+" 插件列表
+Plugin 'VundleVim/Vundle.vim'   "vundle 插件管理
+Plugin 'dyng/ctrlsf.vim' "项目搜索插件
+Plugin 'scrooloose/nerdtree' "目录浏览
+Plugin 'vim-airline/vim-airline' "更好的状态栏
+Plugin 'vim-airline/vim-airline-themes' "更好的状态栏
+Plugin 'scrooloose/nerdcommenter' "注释插件
+Plugin 'Shougo/neocomplete.vim' "自动补全插件
+Plugin 'vim-syntastic/syntastic' "语法检查插件
+Plugin 'majutsushi/tagbar' "右侧的标签栏
+Plugin 'itchyny/calendar.vim' "calendar
+Plugin 'airblade/vim-gitgutter' "git 工具
+Plugin 'Raimondi/delimitMate' "括号等配对
+Plugin 'joonty/vdebug' "debug专用
+Plugin 'junegunn/goyo.vim' "写文档更好看的插件
+Plugin 'junegunn/limelight.vim' "突出当前位置
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'ianva/vim-youdao-translater' "有道翻译
+" Plugin 'spolu/dwm.vim' "窗口管理
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"ctrlsf 配置
+let g:ctrlsf_winsize = '100%'
+let g:ctrlsf_ackprg = '/usr/local/bin/ag'
+let g:ctrlsf_ignore_dir = ['.git']
+nmap     <C-F>f yiw<Plug>CtrlSFPrompt 'function <C-R>"(' 
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nnoremap <C-F>t :CtrlSFToggle<CR>
+let g:ctrlsf_mapping = {
+    \ "next": "n",
+    \ "prev": "N",
+    \ "split": "",
+    \ "vsplit": "<C-O>",
+    \ }
+
+
+"nerdtree配置
+" open NERDTree automatically when vim starts up on opening a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+map <leader>n :NERDTreeToggle<CR>
+
+let g:airline#extensions#tabline#fnamemod = ':p:t' " 只显示文件名，不显示路径内容。
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline_theme='molokai'
+
+"scrooloose/nerdcommenter 配置
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code intension
+let g:NERDDefaultAlign = 'left'
+" " Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+"
+" Allow commenting and inverting empty lines (useful when commenting a
+" region)
+let g:NERDCommentEmptyLines = 1
+"
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+"neocomplete
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#enable_auto_close_preview = 1
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+
+"airline 配置
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"tagbar
+let g:tagbar_width=35
+let g:tagbar_autofocus=1
+let g:tagbar_autoclose = 1
+let g:tagbar_show_visibility = 1
+let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_type_php = {
+    \ 'kinds' : [
+        \ 'i:interfaces',
+        \ 'c:classes',
+        \ 'd:constant definitions:0:0',
+        \ 'f:functions'
+    \ ],
+\ }
+let file_markdown2ctags='~/.vim/markdown2ctags.py'
+let g:tagbar_type_markdown = {
+    \ 'ctagstype': 'markdown',
+    \ 'ctagsbin' : file_markdown2ctags,
+    \ 'ctagsargs' : '-f - --sort=yes',
+    \ 'kinds' : [
+        \ 's:sections',
+        \ 'i:images'
+    \ ],
+    \ 'sro' : '|',
+    \ 'kind2scope' : {
+        \ 's' : 'section',
+    \ },
+    \ 'sort': 0,
+\ }
+nmap <leader>t :TagbarToggle<CR>
+
+"mx           Toggle mark 'x' and display it in the leftmost column
+"dmx          Remove mark 'x' where x is a-zA-Z
+"m,           Place the next available mark
+"m.           If no mark on line, place the next available mark. Otherwise, remove (first) existing mark.
+"m-           Delete all marks from the current line
+"m<Space>     Delete all marks from the current buffer
+"]`           Jump to next mark
+"[`           Jump to prev mark
+"]'           Jump to start of next line containing a mark
+"['           Jump to start of prev line containing a mark
+"`]           Jump by alphabetical order to next mark
+"`[           Jump by alphabetical order to prev mark
+"']           Jump by alphabetical order to start of next line having a mark
+"'[           Jump by alphabetical order to start of prev line having a mark
+"m/           Open location list and display marks from current buffer
+"m[0-9]       Toggle the corresponding marker !@#4%^&*()
+"m<S-[0-9]>   Remove all markers of the same type
+"]-           Jump to next line having a marker of the same type
+"[-           Jump to prev line having a marker of the same type
+"]=           Jump to next line having a marker of any type
+"[=           Jump to prev line having a marker of any type
+"m?           Open location list and display markers from current buffer
+"m<BS>        Remove all markers
+
+"markdown configure
+
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_frontmatter=1
+
+"dwn设置
+" let g:dwm_map_keys = 0
+" let g:dwm_master_pane_width="71.8%"
+
+"wiki
+if exists("g:loaded_vimwiki")
+    let g:vimwiki_list = [{
+                \ 'path': '/data/project/wiki/', 
+                \ 'path_html': '/data/project/wiki/html',
+                \ 'ext': '.md',
+                \ 'template_path': '/data/project/wiki/assets/',
+                \ 'template_default': 'default',
+                \ 'template_ext': '.tpl',
+                \ 'auto_export': 0}]
+    let g:vimwiki_folding = 'expr'
+    "wiki 和 tagbar 结合
+    let g:tagbar_type_vimwiki = {
+                \   'ctagstype':'vimwiki'
+                \ , 'kinds':['h:header']
+                \ , 'sro':'&&&'
+                \ , 'kind2scope':{'h':'header'}
+                \ , 'sort':0
+                \ , 'ctagsbin':'~/.vim/vwtags.py'
+                \ , 'ctagsargs': 'all'
+                \ }
+endif
+"multiple cursor
+" let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_next_key='<C-m>'
+" let g:multi_cursor_prev_key='<C-p>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<Esc>'
+" let g:multi_cursor_start_word_key='g<C-m>'
+" let g:multi_cursor_start_key='<C-m>'
+" "解决与Neocomplete冲突问题
+" " Called once right before you start selecting multiple cursors
+" function! Multiple_cursors_before()
+"     if exists(':NeoCompleteLock')==2
+"         exe 'NeoCompleteLock'
+"     endif
+" endfunction
+" " Called once only when the multiple selection is canceled (default <Esc>)
+" function! Multiple_cursors_after()
+"     if exists(':NeoCompleteUnlock')==2
+"         exe 'NeoCompleteUnlock'
+"     endif
+" endfunction
+
+
+"vdebug 
+"XDEBUG_SESSION_START = 1
+let g:vdebug_options= {
+            \    "port" : 9010,
+            \    "server" : '192.168.229.138',
+            \    "timeout" : 20,
+            \    "on_close" : 'detach',
+            \    "break_on_open" : 0,
+            \    "ide_key" : '1',
+            \    "path_maps" : {},
+            \    "debug_window_level" : 0,
+            \    "debug_file_level" : 0,
+            \    "debug_file" : "",
+            \    "watch_window_style" : 'compact',
+            \    "marker_default" : '⬦',
+            \    "marker_closed_tree" : '▸',
+            \    "marker_open_tree" : '▾'
+            \}
+
+let g:vdebug_keymap = {
+            \    "run" : "<leader>d",
+            \    "run_to_cursor" : "<leader>dc",
+            \    "step_over" : "<F2>",
+            \    "step_into" : "<F3>",
+            \    "step_out" : "<F4>",
+            \    "close" : "<F6>",
+            \    "detach" : "<F7>",
+            \    "set_breakpoint" : "<leader>dt",
+            \    "get_context" : "<F11>",
+            \    "eval_under_cursor" : "<leader>dv",
+            \    "eval_visual" : "<Leader>e",
+            \}
+
+let g:vdebug_features = {'max_depth' : 20}
+
+"easymotion配置
+" map <Leader> <Plug>(easymotion-prefix)
+" " <Leader>f{char} to move to {char}
+" map  <Leader>f <Plug>(easymotion-bd-f)
+" nmap <Leader>f <Plug>(easymotion-overwin-f)
+"
+" " s{char}{char} to move to {char}{char}
+" nmap <Leader>s <Plug>(easymotion-overwin-f2)
+"
+" " Move to line
+" map <Leader>L <Plug>(easymotion-bd-jk)
+" nmap <Leader>L <Plug>(easymotion-overwin-line)
+"
+" " Move to word
+" map  <Leader>w <Plug>(easymotion-bd-w)
+" nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+"hardmode 配置
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+function! s:goyo_enter()
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! s:goyo_leave()
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+endfunction
+
+autocmd! User GoyoEnter call <SID>goyo_enter()
+autocmd! User GoyoLeave call <SID>goyo_leave()
+
+"后期配置
+" autocmd! BufNewFile,BufRead *.md,*.wiki call WriterToggle()

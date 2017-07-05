@@ -1,0 +1,67 @@
+# gitlab
+Host git.ofashion.com.cn
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/lab_rsa 
+    User tong.xiang
+
+# github
+Host github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/hub_rsa 
+    User xtaq
+
+Host test_old
+    HostName 121.201.15.204
+    Port 2299
+    User root
+
+Host test
+    HostName 121.201.69.25
+    Port 2299
+    User root
+
+Host centos
+    HostName 192.168.126.128
+    User root
+
+Host api_01
+    HostName 120.132.71.226
+    Port 2369
+    User MFashion
+
+Host api_02
+    HostName 120.132.89.254
+    Port 2369
+    User MFashion
+
+Host api_03
+    HostName 120.92.5.207 
+    Port 2369
+    User MFashion
+
+Host jump
+    HostName 123.59.107.16 
+    Port 2369
+    User xiangtong
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/jump
+    ForwardAgent Yes
+
+Host seller_api
+    HostName 123.59.12.1
+    Port 2369
+    User readonly
+
+Host inner_api
+    HostName 123.59.12.73
+    Port 2369
+    User readonly
+
+Host elk
+    HostName 123.59.15.244
+    Port 2369
+    User MFashion
+
+HOST xt
+    HostName 118.89.115.55
+    User root

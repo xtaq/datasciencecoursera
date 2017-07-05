@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/xt/.oh-my-zsh'
+let g:netrw_dirhist_2='/Users/xt/.oh-my-zsh/themes'
+let g:netrw_dirhist_3='/Users/xt/.oh-my-zsh'
+let g:netrw_dirhist_4='/Users/xt/.vim'
+let g:netrw_dirhist_5='/Users/xt/Documents/gitworkspace/python-learn/spider'
+let g:netrw_dirhist_6='/Users/xt/Downloads/hadoop-2.7.1-src/hadoop-client'
+let g:netrw_dirhist_7='/Users/xt/Documents/auto_routor/.git/hooks'
